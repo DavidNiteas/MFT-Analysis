@@ -83,7 +83,6 @@ cargo tauri dev                          # 终端 2（在仓库根目录执行�
 core/             mft-analysis-core：MFT 扫描与解析算法（纯 Rust，无 GUI 依赖）
 studio/           mft-analysis-studio：Tauri GUI（Rust 后端 + 窗口配置 + 图标）
 ui/               React 前端（Vite 构建，产物输出到根目录 dist/）
-scripts/          辅助脚本（图标生成、GUI 自动化验证）
 ```
 
 ## 安全说明
