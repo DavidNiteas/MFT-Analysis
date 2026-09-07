@@ -3,6 +3,8 @@ name = "mft-analysis-studio"
 description = "MFT Analysis —— 基于 NTFS MFT 的磁盘占用分析 GUI（Tauri + React）"
 version.workspace = true
 edition.workspace = true
+authors.workspace = true
+license.workspace = true
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }

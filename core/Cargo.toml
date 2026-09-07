@@ -3,6 +3,8 @@ name = "mft-analysis-core"
 description = "NTFS MFT 读取与解析算法（纯 Rust，无 GUI 依赖）"
 version.workspace = true
 edition.workspace = true
+authors.workspace = true
+license.workspace = true
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }

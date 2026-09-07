@@ -92,4 +92,9 @@ scripts/          辅助脚本（图标生成、GUI 自动化验证）
 
 ## License
 
-MIT
+与 Rust 相同的标准双许可，任选其一：
+
+- [MIT](LICENSE-MIT)
+- [Apache License, Version 2.0](LICENSE-APACHE)
+
+Copyright (c) 2026 David Niteas
