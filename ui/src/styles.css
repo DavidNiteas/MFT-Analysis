@@ -39,6 +39,15 @@ input {
   padding: 2px 6px;
 }
 
+select {
+  background: #2a2c33;
+  color: #ddd;
+  border: 1px solid #444;
+  border-radius: 3px;
+  padding: 2px 4px;
+  font: inherit;
+}
+
 button.act {
   background: #31517f;
   color: #fff;
@@ -117,6 +126,37 @@ button.act:hover {
   color: #666;
 }
 
+.crumbs .spacer {
+  flex: 1;
+}
+
+button.mini {
+  background: #2a2c33;
+  border: 1px solid #444;
+  border-radius: 3px;
+  color: #bbb;
+  cursor: pointer;
+  padding: 1px 8px;
+  font: inherit;
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+button.mini:hover {
+  background: #3a3d46;
+  color: #ddd;
+}
+
+button.mini.on {
+  border-color: #4a6fa5;
+  color: #8ab4f8;
+}
+
+.files-head button.mini {
+  margin-left: 10px;
+  font-weight: 400;
+}
+
 .tree-body {
   flex: 1;
   overflow: auto;
@@ -152,6 +192,21 @@ button.act:hover {
   flex: none;
   font-size: 9px;
   padding: 0;
+}
+
+.arrow.placeholder {
+  cursor: default;
+}
+
+.type-icon {
+  flex: none;
+  width: 17px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.type-icon .icon {
+  display: block;
 }
 
 .bar {
@@ -229,4 +284,123 @@ td.num {
 td.path {
   word-break: break-all;
   user-select: text;
+}
+
+/* 右键菜单 */
+.ctxmenu {
+  position: fixed;
+  z-index: 1000;
+  min-width: 160px;
+  background: #2a2c33;
+  border: 1px solid #444;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  padding: 3px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ctxmenu button {
+  background: none;
+  border: none;
+  color: #ddd;
+  font: inherit;
+  text-align: left;
+  padding: 5px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.ctxmenu button:hover {
+  background: #31517f;
+  color: #fff;
+}
+
+/* 饼图弹窗 */
+.pie-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pie-modal {
+  background: #23242a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  padding: 12px 16px;
+  max-width: 720px;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.pie-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  word-break: break-all;
+}
+
+.pie-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.pie-body {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.pie-svg {
+  flex: none;
+}
+
+.pie-legend {
+  flex: 1;
+  min-width: 260px;
+  max-height: 56vh;
+  overflow: auto;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 1px 0;
+  white-space: nowrap;
+}
+
+.legend-row .swatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  flex: none;
+}
+
+.legend-row .legend-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+.legend-row .legend-size {
+  color: #8ab4f8;
+  margin-left: auto;
+}
+
+.legend-row .legend-pct {
+  color: #9a9da6;
+  width: 48px;
+  text-align: right;
 }

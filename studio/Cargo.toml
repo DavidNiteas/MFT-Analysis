@@ -1,0 +1,13 @@
+[package]
+name = "mft-analysis-studio"
+description = "MFT Analysis —— 基于 NTFS MFT 的磁盘占用分析 GUI（Tauri + React）"
+version.workspace = true
+edition.workspace = true
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+mft-analysis-core = { path = "../core" }

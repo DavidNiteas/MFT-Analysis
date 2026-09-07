@@ -1787,9 +1787,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "mft-reader"
+name = "mft-analysis-core"
 version = "0.1.0"
 dependencies = [
+ "serde",
+]
+
+[[package]]
+name = "mft-analysis-studio"
+version = "0.1.0"
+dependencies = [
+ "mft-analysis-core",
  "serde",
  "tauri",
  "tauri-build",

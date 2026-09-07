@@ -14,16 +14,18 @@ public class VFin {
 '@
 [VFin]::SetProcessDpiAwareness(2) | Out-Null
 Start-Sleep -Milliseconds 300
-$h = (Get-Process mft-reader | Where-Object { $_.MainWindowHandle -ne 0 } | Select-Object -First 1).MainWindowHandle
+$h = (Get-Process mft-analysis-studio | Where-Object { $_.MainWindowHandle -ne 0 } | Select-Object -First 1).MainWindowHandle
 $r = New-Object VFin+RECT
 [VFin]::GetWindowRect($h, [ref]$r) | Out-Null
 $w = $r.Right - $r.Left; $ht = $r.Bottom - $r.Top
 Write-Output ("rect {0},{1} {2}x{3}" -f $r.Left, $r.Top, $w, $ht)
 $topmost = [IntPtr]::new(-1); $notop = [IntPtr]::new(-2)
-[VFin]::SetWindowPos($h, $topmost, 0, 0, 0, 0, 0x03) | Out-Null
+# 统一窗口位置尺寸，保证下面的固定坐标生效
+[VFin]::SetWindowPos($h, $topmost, 50, 50, 1600, 900, 0x0040) | Out-Null
 Start-Sleep -Milliseconds 500
-$cx = $r.Left + [int]($w * 0.30)
-$cy = $r.Top + [int]($ht * 0.069)
+[VFin]::GetWindowRect($h, [ref]$r) | Out-Null
+$cx = $r.Left + 830
+$cy = $r.Top + 40
 Write-Output ("click {0},{1}" -f $cx, $cy)
 [VFin]::SetCursorPos($cx, $cy) | Out-Null
 Start-Sleep -Milliseconds 300
@@ -35,6 +37,6 @@ Start-Sleep -Seconds $WaitSeconds
 $b = New-Object System.Drawing.Bitmap(($r.Right-$r.Left), ($r.Bottom-$r.Top))
 $g = [System.Drawing.Graphics]::FromImage($b)
 $g.CopyFromScreen($r.Left, $r.Top, 0, 0, $b.Size)
-$b.Save('E:/dev_repos/MFT-reader/shot.png', [System.Drawing.Imaging.ImageFormat]::Png)
+$b.Save('E:/dev_repos/MFT-reader/shot-local.png', [System.Drawing.Imaging.ImageFormat]::Png)
 [VFin]::SetWindowPos($h, $notop, 0, 0, 0, 0, 0x03) | Out-Null
 Write-Output "saved shot.png"

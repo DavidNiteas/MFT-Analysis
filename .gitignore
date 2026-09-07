@@ -9,6 +9,7 @@
 
 # Tauri 生成文件
 /gen
+/studio/gen
 
 # 本地临时文件
 /shot*.png
