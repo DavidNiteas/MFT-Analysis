@@ -72,6 +72,130 @@ const FileIcon = () => (
   </svg>
 )
 
+// ── 多语言 ──
+const I18N = {
+  zh: {
+    driveLabel: '盘符: ',
+    limitLabel: 'MFT 读取上限（安全上限）: ',
+    gb: 'GB',
+    cancel: '取消',
+    startScan: '开始扫描',
+    refresh: '刷新',
+    refreshTitle: '用相同盘符重新扫描 MFT；目录树保持展开状态，仅更新数据',
+    scanning: (d) => `正在扫描 ${d}: 盘 MFT ...`,
+    refreshScanning: '正在重新扫描（保留目录树展开状态）...',
+    invalidDrive: '盘符无效，请输入 A-Z。',
+    progress: (mb, rec, valid) => `已读 ${mb} MB，记录 ${rec}，有效 ${valid}`,
+    scanDone: (d) =>
+      `扫描完成：${d.drive} 盘共 ${d.count.toLocaleString()} 条有效记录。` +
+      `簇大小 ${humanSize(d.bytes_per_cluster)}，MFT 记录大小 ${humanSize(d.record_size)}，` +
+      `MFT 偏移 0x${d.mft_byte_offset.toString(16).toUpperCase()}` +
+      (d.cancelled ? '（已取消，结果不完整）' : ''),
+    initStatus: '选择盘符后点击「开始扫描」。需要管理员权限。',
+    emptyDesc1: '读取 NTFS 主文件表（MFT），分析磁盘空间占用。',
+    emptyDesc2: '请以管理员身份运行，否则无法打开卷设备。',
+    drill: '⤵ 以所选为根',
+    showFiles: '显示文件',
+    showFilesTitle: '在目录树中同时显示文件',
+    exportTree: '导出树',
+    exportTreeTitle: '导出当前展开的目录树为文本',
+    topFiles: (p) => `Top 文件（${p} 下，按大小排序）`,
+    exportCsv: '导出 CSV',
+    exportCsvTitle: '把当前列表导出为 CSV（UTF-8）',
+    pieAnalyze: '饼图分析',
+    pieAnalyzeTitle: '按文件名 / 后缀聚合绘制子树文件占用饼图',
+    recon: (used, scanned, diff) =>
+      `磁盘已用 ${used} · 已统计 ${scanned} · 差额 ${diff}（NTFS 元数据 / MFT 保留区 / 未归属簇）`,
+    truncatedWarn: '⚠ 该目录文件数过多，统计已截断，结果可能不完整。',
+    computing: '计算中...',
+    noFiles: '该目录下没有文件。',
+    menuReveal: '打开所在目录',
+    menuOpenDir: '打开此目录',
+    menuDirPie: '查看空间饼图',
+    menuCopyPath: '复制路径',
+    copied: (p) => `已复制路径：${p}`,
+    copyFailed: (e) => `复制失败: ${e}`,
+    csvExported: (p) => `已导出 CSV：${p}`,
+    treeExported: (p) => `已导出目录树：${p}`,
+    csvHeader: ['排名', '文件名', '所属目录', '路径', '大小(字节)', '大小'],
+    dirPieTitle: '空间占用饼图 — ',
+    filesPieTitle: '文件饼图分析 — ',
+    viewLabel: '视角: ',
+    byFile: '按文件（Top-K）',
+    byExt: '按后缀聚合',
+    kLabel: 'K: ',
+    otherNote: '超出 Top-K 的项合并为「其他」',
+    noData: '没有可绘制的数据。',
+    noItems: '该范围没有占用空间的项目。',
+    themeTitle: '切换白天 / 黑夜模式',
+    themeBtn: (theme) => (theme === 'dark' ? '☀ 白天' : '🌙 黑夜'),
+    langTitle: 'Switch language',
+    langBtn: (lang) => (lang === 'zh' ? 'EN' : '中'),
+    dirMark: 'D',
+    fileMark: 'F',
+  },
+  en: {
+    driveLabel: 'Drive: ',
+    limitLabel: 'MFT read limit (safety cap): ',
+    gb: 'GB',
+    cancel: 'Cancel',
+    startScan: 'Start Scan',
+    refresh: 'Refresh',
+    refreshTitle: 'Re-scan the MFT with the same drive; the tree keeps its expansion, only data updates',
+    scanning: (d) => `Scanning MFT of ${d}: ...`,
+    refreshScanning: 'Re-scanning (keeping tree expansion)...',
+    invalidDrive: 'Invalid drive letter, enter A-Z.',
+    progress: (mb, rec, valid) => `Read ${mb} MB, records ${rec}, valid ${valid}`,
+    scanDone: (d) =>
+      `Scan complete: ${d.count.toLocaleString()} valid records on drive ${d.drive}. ` +
+      `Cluster size ${humanSize(d.bytes_per_cluster)}, MFT record size ${humanSize(d.record_size)}, ` +
+      `MFT offset 0x${d.mft_byte_offset.toString(16).toUpperCase()}` +
+      (d.cancelled ? ' (cancelled, results incomplete)' : ''),
+    initStatus: 'Select a drive and click "Start Scan". Administrator rights required.',
+    emptyDesc1: 'Reads the NTFS Master File Table (MFT) to analyze disk space usage.',
+    emptyDesc2: 'Run as administrator, otherwise the volume device cannot be opened.',
+    drill: '⤵ Set as root',
+    showFiles: 'Show files',
+    showFilesTitle: 'Also show files in the directory tree',
+    exportTree: 'Export Tree',
+    exportTreeTitle: 'Export the currently expanded tree as text',
+    topFiles: (p) => `Top files under ${p}, by size`,
+    exportCsv: 'Export CSV',
+    exportCsvTitle: 'Export the current list as CSV (UTF-8)',
+    pieAnalyze: 'Pie Analysis',
+    pieAnalyzeTitle: 'Pie chart of subtree file usage by file name / extension',
+    recon: (used, scanned, diff) =>
+      `Disk used ${used} · accounted ${scanned} · gap ${diff} (NTFS metadata / MFT reserved / unattributed clusters)`,
+    truncatedWarn: '⚠ Too many files in this directory; statistics were truncated and may be incomplete.',
+    computing: 'Computing...',
+    noFiles: 'No files under this directory.',
+    menuReveal: 'Open containing folder',
+    menuOpenDir: 'Open this folder',
+    menuDirPie: 'Show space pie chart',
+    menuCopyPath: 'Copy path',
+    copied: (p) => `Path copied: ${p}`,
+    copyFailed: (e) => `Copy failed: ${e}`,
+    csvExported: (p) => `CSV exported: ${p}`,
+    treeExported: (p) => `Tree exported: ${p}`,
+    csvHeader: ['Rank', 'File Name', 'Folder', 'Path', 'Size (bytes)', 'Size'],
+    dirPieTitle: 'Space Usage Pie — ',
+    filesPieTitle: 'File Pie Analysis — ',
+    viewLabel: 'View: ',
+    byFile: 'By file (Top-K)',
+    byExt: 'By extension',
+    kLabel: 'K: ',
+    otherNote: 'Items beyond Top-K are merged into "Other"',
+    noData: 'Nothing to draw.',
+    noItems: 'No space-consuming items in this scope.',
+    themeTitle: 'Toggle light / dark mode',
+    themeBtn: (theme) => (theme === 'dark' ? '☀ Light' : '🌙 Dark'),
+    langTitle: '切换语言 / Switch language',
+    langBtn: (lang) => (lang === 'zh' ? 'EN' : '中'),
+    dirMark: 'D',
+    fileMark: 'F',
+  },
+}
+
 // ── 饼图 ──
 const PIE_PALETTE = [
   '#4e7ec2', '#e8b93e', '#5cb87a', '#d16969', '#9a6fd1', '#4ec2b8',
@@ -81,7 +205,7 @@ const PIE_PALETTE = [
 function PieSvg({ items, total }) {
   const r = 80
   const c = 100
-  if (!total) return <div className="status">没有可绘制的数据。</div>
+  if (!total) return null
   let angle = -Math.PI / 2
   const paths = items.map((it, i) => {
     const frac = it.size / total
@@ -103,7 +227,7 @@ function PieSvg({ items, total }) {
         key={i}
         d={`M ${c} ${c} L ${x0} ${y0} A ${r} ${r} 0 ${large} 1 ${x1} ${y1} Z`}
         fill={color}
-        stroke="#1e1f24"
+        stroke="var(--bg)"
         strokeWidth="1"
       />
     )
@@ -115,7 +239,7 @@ function PieSvg({ items, total }) {
   )
 }
 
-function PieModal({ pie, onClose }) {
+function PieModal({ pie, t, onClose }) {
   const [data, setData] = useState(null)
   const [byExt, setByExt] = useState(false)
   const [k, setK] = useState(10)
@@ -149,7 +273,7 @@ function PieModal({ pie, onClose }) {
       <div className="pie-modal" onClick={(e) => e.stopPropagation()}>
         <div className="pie-head">
           <span>
-            {pie.kind === 'dir' ? '空间占用饼图 — ' : '文件饼图分析 — '}
+            {pie.kind === 'dir' ? t.dirPieTitle : t.filesPieTitle}
             {data ? data.title : '...'}
           </span>
           <button className="mini" onClick={onClose}>
@@ -159,14 +283,14 @@ function PieModal({ pie, onClose }) {
         {pie.kind === 'files' && (
           <div className="pie-controls">
             <label>
-              视角:{' '}
+              {t.viewLabel}{' '}
               <select value={byExt ? 'ext' : 'file'} onChange={(e) => setByExt(e.target.value === 'ext')}>
-                <option value="file">按文件（Top-K）</option>
-                <option value="ext">按后缀聚合</option>
+                <option value="file">{t.byFile}</option>
+                <option value="ext">{t.byExt}</option>
               </select>
             </label>
             <label>
-              K:{' '}
+              {t.kLabel}{' '}
               <input
                 type="number"
                 min={3}
@@ -176,14 +300,14 @@ function PieModal({ pie, onClose }) {
                 onChange={(e) => setK(Math.max(3, Math.min(100, Number(e.target.value) || 10)))}
               />
             </label>
-            <span className="status">超出 Top-K 的项合并为「其他」</span>
+            <span className="status">{t.otherNote}</span>
           </div>
         )}
         {err && <div className="status error">{err}</div>}
-        {!data && !err && <div className="status">计算中...</div>}
+        {!data && !err && <div className="status">{t.computing}</div>}
         {data && (
           <div className="pie-body">
-            <PieSvg items={data.items} total={total} />
+            {total ? <PieSvg items={data.items} total={total} /> : <div className="status">{t.noData}</div>}
             <div className="pie-legend">
               {data.items.map((it, i) => (
                 <div className="legend-row" key={i} title={it.name}>
@@ -193,7 +317,7 @@ function PieModal({ pie, onClose }) {
                   <span className="legend-pct">{total ? ((it.size / total) * 100).toFixed(1) : 0}%</span>
                 </div>
               ))}
-              {data.items.length === 0 && <div className="status">该范围没有占用空间的项目。</div>}
+              {data.items.length === 0 && <div className="status">{t.noItems}</div>}
             </div>
           </div>
         )}
@@ -210,7 +334,18 @@ export default function App() {
   const [progress, setProgress] = useState(null)
   const [ready, setReady] = useState(false)
   const [isError, setIsError] = useState(false)
-  const [status, setStatus] = useState('选择盘符后点击「开始扫描」。需要管理员权限。')
+  const [status, setStatus] = useState('')
+  const [lang, setLang] = useState(() => localStorage.getItem('mft-lang') || 'zh')
+  const [theme, setTheme] = useState(() => localStorage.getItem('mft-theme') || 'dark')
+  const t = I18N[lang] || I18N.zh
+
+  useEffect(() => {
+    localStorage.setItem('mft-lang', lang)
+  }, [lang])
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    localStorage.setItem('mft-theme', theme)
+  }, [theme])
 
   const [root, setRoot] = useState(null)
   const [volStats, setVolStats] = useState(null)
@@ -232,6 +367,8 @@ export default function App() {
   const lastScanRef = useRef(null) // { drive, limitGb }，刷新时用
   const keepTreeRef = useRef(false) // 刷新扫描：完成后保留目录树展开状态
   const reloadTreeRef = useRef(() => {})
+  const tRef = useRef(I18N.zh)
+  tRef.current = t
 
   const pollRef = useRef(null)
   const stopPolling = () => {
@@ -299,12 +436,7 @@ export default function App() {
       setReady(true)
       setProgress(null)
       setIsError(false)
-      setStatus(
-        `扫描完成：${d.drive} 盘共 ${d.count.toLocaleString()} 条有效记录。` +
-          `簇大小 ${humanSize(d.bytes_per_cluster)}，MFT 记录大小 ${humanSize(d.record_size)}，` +
-          `MFT 偏移 0x${d.mft_byte_offset.toString(16).toUpperCase()}` +
-          (d.cancelled ? '（已取消，结果不完整）' : '')
-      )
+      setStatus(tRef.current.scanDone(d))
       keepTreeRef.current ? reloadTreeRef.current() : loadTree(MFT_ROOT)
     }).then((u) => (un1 = u))
     api.onScanError((e) => {
@@ -341,7 +473,7 @@ export default function App() {
       setPie(null)
       setVolStats(null)
     }
-    setStatus(`正在扫描 ${d}: 盘 MFT ...`)
+    setStatus(t.scanning(d))
     try {
       await api.startScan(d, lastScanRef.current.limitGb)
       pollRef.current = setInterval(async () => {
@@ -363,7 +495,7 @@ export default function App() {
     const d = (drive.trim()[0] || '').toUpperCase()
     if (!/^[A-Z]$/.test(d)) {
       setIsError(true)
-      setStatus('盘符无效，请输入 A-Z。')
+      setStatus(t.invalidDrive)
       return
     }
     lastScanRef.current = { drive: d, limitGb }
@@ -374,7 +506,7 @@ export default function App() {
   // 只重载已展开节点的子项 —— 形状不变，数值与新出现的子项会更新。
   const refreshScan = async () => {
     if (!lastScanRef.current || scanning) return
-    setStatus('正在重新扫描（保留目录树展开状态）...')
+    setStatus(t.refreshScanning)
     await doScan(lastScanRef.current.drive, true)
   }
 
@@ -441,14 +573,14 @@ export default function App() {
   const exportCsv = async () => {
     if (!topFiles?.files?.length) return
     try {
-      const rows = [['排名', '文件名', '所属目录', '路径', '大小(字节)', '大小']]
+      const rows = [t.csvHeader]
       topFiles.files.forEach(([p, s], i) => {
         const { dir, name } = splitPath(p)
         rows.push([i + 1, name, dir, p, s, humanSize(s)])
       })
       const csv = rows.map((r) => r.map(csvCell).join(',')).join('\r\n')
       const path = await api.exportText(`mft-top-files-${timestamp()}.csv`, csv)
-      setStatus(`已导出 CSV：${path}`)
+      setStatus(t.csvExported(path))
       await api.revealInExplorer(path)
     } catch (e) {
       setIsError(true)
@@ -466,14 +598,14 @@ export default function App() {
         const kids = childrenCache[record]
         if (!kids) return
         for (const k of kids) {
-          const mark = k.is_dir ? '[D]' : '[F]'
-          lines.push(`${'  '.repeat(depth + 1)}${mark} ${k.name}  ${humanSize(k.subtree_size)}`)
+          const mark = k.is_dir ? t.dirMark : t.fileMark
+          lines.push(`${'  '.repeat(depth + 1)}[${mark}] ${k.name}  ${humanSize(k.subtree_size)}`)
           if (k.is_dir && expanded.has(k.record)) walk(k.record, depth + 1)
         }
       }
       walk(viewRoot, 0)
       const path = await api.exportText(`mft-tree-${timestamp()}.txt`, lines.join('\r\n'))
-      setStatus(`已导出目录树：${path}`)
+      setStatus(t.treeExported(path))
       await api.revealInExplorer(path)
     } catch (e) {
       setIsError(true)
@@ -536,10 +668,10 @@ export default function App() {
     const p = ctxMenu.path
     setCtxMenu(null)
     copyToClipboard(p).then(
-      () => setStatus(`已复制路径：${p}`),
+      () => setStatus(t.copied(p)),
       (err) => {
         setIsError(true)
-        setStatus(`复制失败: ${String(err)}`)
+        setStatus(t.copyFailed(String(err)))
       }
     )
   }
@@ -608,7 +740,7 @@ export default function App() {
     <div id="root-layout" onContextMenu={blankCtx}>
       <div className="topbar">
         <label>
-          盘符:{' '}
+          {t.driveLabel}{' '}
           <select
             value={drive}
             disabled={scanning}
@@ -623,7 +755,7 @@ export default function App() {
           </select>
         </label>
         <label>
-          MFT 读取上限（安全上限）:{' '}
+          {t.limitLabel}{' '}
           <input
             type="number"
             min={0.5}
@@ -634,41 +766,52 @@ export default function App() {
             onChange={(e) => setLimitGb(Number(e.target.value) || 2)}
             style={{ width: 64 }}
           />{' '}
-          GB
+          {t.gb}
         </label>
         {scanning ? (
           <button className="act" onClick={() => api.cancelScan()}>
-            取消
+            {t.cancel}
           </button>
         ) : (
           <button className="act" onClick={startScan}>
-            开始扫描
+            {t.startScan}
           </button>
         )}
         {!scanning && ready && (
-          <button
-            className="act"
-            onClick={refreshScan}
-            title="用相同盘符重新扫描 MFT；目录树保持展开状态，仅更新数据"
-          >
-            刷新
+          <button className="act" onClick={refreshScan} title={t.refreshTitle}>
+            {t.refresh}
           </button>
         )}
+        <button
+          className="mini"
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          title={t.themeTitle}
+        >
+          {t.themeBtn(theme)}
+        </button>
+        <button className="mini" onClick={() => setLang(lang === 'zh' ? 'en' : 'zh')} title={t.langTitle}>
+          {t.langBtn(lang)}
+        </button>
         {progress && (
           <span className="prog">
             <progress value={progress.bytes_scanned} max={progress.total_bytes || 1} />
-            已读 {(progress.bytes_scanned / 1048576).toFixed(0)} MB，记录{' '}
-            {progress.records.toLocaleString()}，有效 {progress.valid.toLocaleString()}
+            {t.progress(
+              (progress.bytes_scanned / 1048576).toFixed(0),
+              progress.records.toLocaleString(),
+              progress.valid.toLocaleString()
+            )}
           </span>
         )}
-        <div className={isError ? 'status error' : 'status'}>{status}</div>
+        <div className={isError ? 'status error' : 'status'}>
+          {status || (!ready ? t.initStatus : '')}
+        </div>
       </div>
 
       {!ready ? (
         <div className="empty">
           <h2>MFT Analysis</h2>
-          <p>读取 NTFS 主文件表（MFT），分析磁盘空间占用。</p>
-          <p>请以管理员身份运行，否则无法打开卷设备。</p>
+          <p>{t.emptyDesc1}</p>
+          <p>{t.emptyDesc2}</p>
         </div>
       ) : (
         <div className="main">
@@ -680,17 +823,17 @@ export default function App() {
                   <button onClick={() => loadTree(c.record).catch(() => {})}>{c.name}</button>
                 </span>
               ))}
-              {selected != null && <button onClick={drill}>⤵ 以所选为根</button>}
+              {selected != null && <button onClick={drill}>{t.drill}</button>}
               <span className="spacer" />
               <button
                 className={showFiles ? 'mini on' : 'mini'}
                 onClick={toggleShowFiles}
-                title="在目录树中同时显示文件"
+                title={t.showFilesTitle}
               >
-                {showFiles ? '☑ 显示文件' : '☐ 显示文件'}
+                {showFiles ? `☑ ${t.showFiles}` : `☐ ${t.showFiles}`}
               </button>
-              <button className="mini" onClick={exportTree} title="导出当前展开的目录树为文本">
-                导出树
+              <button className="mini" onClick={exportTree} title={t.exportTreeTitle}>
+                {t.exportTree}
               </button>
             </div>
             <div className="tree-body">
@@ -710,37 +853,36 @@ export default function App() {
           </div>
           <div className="files">
             <div className="files-head">
-              Top 文件（{focusPath || '...'} 下，按大小排序）
+              {t.topFiles(focusPath || '...')}
               <button
                 className="mini"
                 onClick={exportCsv}
                 disabled={!topFiles?.files?.length}
-                title="把当前列表导出为 CSV（UTF-8）"
+                title={t.exportCsvTitle}
               >
-                导出 CSV
+                {t.exportCsv}
               </button>
               <button
                 className="mini"
                 onClick={() => setPie({ kind: 'files', record: topRec ?? viewRoot })}
                 disabled={topRec == null}
-                title="按文件名 / 后缀聚合绘制子树文件占用饼图"
+                title={t.pieAnalyzeTitle}
               >
-                饼图分析
+                {t.pieAnalyze}
               </button>
             </div>
             {volStats && root && (
               <div className="recon">
-                磁盘已用 {humanSize(volStats.used)} · 已统计{' '}
-                {humanSize(root.total_scanned)} · 差额{' '}
-                {humanSize(Math.max(0, volStats.used - root.total_scanned))}
-                （NTFS 元数据 / MFT 保留区 / 未归属簇）
+                {t.recon(
+                  humanSize(volStats.used),
+                  humanSize(root.total_scanned),
+                  humanSize(Math.max(0, volStats.used - root.total_scanned))
+                )}
               </div>
             )}
-            {topFiles?.truncated && (
-              <div className="warn">⚠ 该目录文件数过多，统计已截断，结果可能不完整。</div>
-            )}
+            {topFiles?.truncated && <div className="warn">{t.truncatedWarn}</div>}
             {filesLoading ? (
-              <div className="status">计算中...</div>
+              <div className="status">{t.computing}</div>
             ) : (
               <table>
                 <tbody>
@@ -755,20 +897,20 @@ export default function App() {
               </table>
             )}
             {!filesLoading && topFiles && topFiles.files.length === 0 && (
-              <div className="status">该目录下没有文件。</div>
+              <div className="status">{t.noFiles}</div>
             )}
           </div>
         </div>
       )}
       {ctxMenu && (
         <div className="ctxmenu" style={{ left: ctxMenu.x, top: ctxMenu.y }}>
-          <button onClick={menuReveal}>打开所在目录</button>
-          {ctxMenu.isDir && <button onClick={menuOpenDir}>打开此目录</button>}
-          {ctxMenu.isDir && <button onClick={menuDirPie}>查看空间饼图</button>}
-          <button onClick={menuCopyPath}>复制路径</button>
+          <button onClick={menuReveal}>{t.menuReveal}</button>
+          {ctxMenu.isDir && <button onClick={menuOpenDir}>{t.menuOpenDir}</button>}
+          {ctxMenu.isDir && <button onClick={menuDirPie}>{t.menuDirPie}</button>}
+          <button onClick={menuCopyPath}>{t.menuCopyPath}</button>
         </div>
       )}
-      {pie && <PieModal pie={pie} onClose={() => setPie(null)} />}
+      {pie && <PieModal pie={pie} t={t} onClose={() => setPie(null)} />}
     </div>
   )
 }
