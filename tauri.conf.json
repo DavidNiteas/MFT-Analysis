@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "MFT Reader",
+  "version": "0.1.0",
+  "identifier": "com.mft-reader.app",
+  "build": {
+    "frontendDist": "dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "MFT Reader — 磁盘占用分析",
+        "width": 1200,
+        "height": 760,
+        "minWidth": 860,
+        "minHeight": 520
+      }
+    ]
+  },
+  "bundle": {
+    "active": false
+  }
+}

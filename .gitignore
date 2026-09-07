@@ -1,0 +1,16 @@
+# Rust / Cargo
+/target
+
+# 前端
+/ui/node_modules
+
+# 构建产物（ui 的 vite 输出到仓库根目录 dist/）
+/dist
+
+# Tauri 生成文件
+/gen
+
+# 本地临时文件
+/shot*.png
+Thumbs.db
+.DS_Store
